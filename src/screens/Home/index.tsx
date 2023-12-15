@@ -1,43 +1,65 @@
-import { Box, Container, HStack, Heading, Icon, Input, Text, VStack } from 'native-base';
+import { Box, Container, HStack, Heading, Icon, Input, Text, ScrollView, Modal } from 'native-base';
 import { View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from "@expo/vector-icons";
+import ContainerVStack from "../../components/ContainerVStack";
+import ItemList from '../../components/ItemList';
+import ButtonAdd from '../../components/ButtonAdd';
+import { useRef, useState } from 'react';
 
 export default function Home() {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
   return (
-    <VStack width="full" backgroundColor={'#1b3065'} p={4}>
-      {/* <Box> */}
-      <HStack justifyContent="space-between" pb={2}>
+    <>
+      <ContainerVStack backgroundColor={'#1b3065'} >
+        {/* <Box> */}
+        <HStack justifyContent="space-between" pb={2}>
+          <Box flexDirection="column" alignItems="flex-start">
+            <Text fontWeight={"medium"} fontSize={24} color="#fdfffd">Lista de compras</Text>
+            <Text fontWeight={"normal"} fontSize={18} p={0.5} pl={3} pr={3} mt={3} borderRadius={20} bg="#366dfb" color="#fdfffd">Neto Vilela</Text>
+          </Box>
+          <MaterialIcons name="shopping-cart" size={27} color="white" />
+        </HStack>
 
-        <Box flexDirection="column" alignItems="flex-start">
-          <Text fontWeight={"medium"} fontSize={24} color="#fdfffd">Lista de compras</Text>
-          <Text fontWeight={"medium"} fontSize={18} p={0.5} pl={3} pr={3} mt={3} borderRadius={20} bg="#366dfb" color="#fdfffd">Neto Vilela</Text>
-        </Box>
+      </ContainerVStack>
+      <ContainerVStack>
+        <Text fontSize={24} fontWeight="bold" mb={0}>Meus itens</Text>
+        <Text fontSize={16} color={'gray.400'}>Total: 100 itens adicionados</Text>
+      </ContainerVStack>
 
+      <ContainerVStack>
+        <ScrollView h={500}>
+          <ItemList title="Maçã" qtd={2} mt={0} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+          <ItemList title="Maçã" qtd={2} />
+        </ScrollView>
+      </ContainerVStack>
 
-
-        <MaterialIcons name="shopping-cart" size={27} color="white" />
+      <HStack justifyContent={"flex-end"} p={4} mt={3}>
+        <ButtonAdd onPress={() => { setModalVisible(!modalVisible) }} />
       </HStack>
-      {/* </Box> */}
 
 
-      {/* <Box mt={5}> */}
-      {/* <Input
-        mt={6}
-        placeholder='Buscar'
-        fontSize={20}
-        backgroundColor="rgb(229, 229, 229)"
-        borderRadius={20}
-        padding={2}
-        InputRightElement={
-          <Icon
-            as={<Feather name="search" />}
-            size={6}
-            mr={3}
-          />
-        }
-      /> */}
-      {/* </Box> */}
-    </VStack>
+      <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)} safeAreaTop={true}>
+        <Modal.Content>
+          <Text>Modal</Text>
+        </Modal.Content>
+      </Modal>
+
+    </>
   );
 }
