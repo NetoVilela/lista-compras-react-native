@@ -6,6 +6,8 @@ import ContainerVStack from "../../components/ContainerVStack";
 import ItemList from '../../components/ItemList';
 import ButtonAdd from '../../components/ButtonAdd';
 import { useRef, useState } from 'react';
+import { List } from "../../data/list";
+import ModalAddItem from '../../components/ModalAddItem';
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -30,22 +32,11 @@ export default function Home() {
 
       <ContainerVStack>
         <ScrollView h={500}>
-          <ItemList title="Maçã" qtd={2} mt={0} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
-          <ItemList title="Maçã" qtd={2} />
+          {List.map((item) => {
+            return (
+              <ItemList key={item.id} title={item.title} qtd={item.qtd} />
+            );
+          })}
         </ScrollView>
       </ContainerVStack>
 
@@ -54,11 +45,7 @@ export default function Home() {
       </HStack>
 
 
-      <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)} safeAreaTop={true}>
-        <Modal.Content>
-          <Text>Modal</Text>
-        </Modal.Content>
-      </Modal>
+      <ModalAddItem onClose={() => setModalVisible(false)} modalVisible={modalVisible} />
 
     </>
   );
