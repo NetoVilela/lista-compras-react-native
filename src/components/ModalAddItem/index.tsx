@@ -2,17 +2,31 @@ import { Modal, Text, FormControl, Input, Stack, VStack, Button, WarningOutlineI
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerProductSchema } from "./schemaZod";
+import { ItemType } from '../../types/Item';
 
 type Props = {
   modalVisible: boolean;
   onClose: () => void;
+  addItem: (item: ItemType) => void;
 };
 
-export default function ModalAddItem({ modalVisible, onClose }: Props) {
-  const { control, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(registerProductSchema) });
+export default function ModalAddItem({ modalVisible, addItem, onClose }: Props) {
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(registerProductSchema) });
   console.log(errors);
+  
   const registerProduct = (data: FieldValues) => {
     console.log(data);
+    const {title, quantity} = data;
+    const item: ItemType={
+      title,
+      quantity
+    }
+    addItem(item);
+    reset({
+      title: "",
+      quantity: ""
+    });
+    onClose();
   };
 
   return (
@@ -26,7 +40,7 @@ export default function ModalAddItem({ modalVisible, onClose }: Props) {
               control={control}
               name="title"
               render={({ field: { onChange, onBlur, value } }) => (
-                <FormControl>
+                <FormControl isRequired isInvalid={!!errors.title}>
                   <FormControl.Label>Nome do produto</FormControl.Label>
                   <Input
                     onChangeText={onChange}
@@ -34,7 +48,7 @@ export default function ModalAddItem({ modalVisible, onClose }: Props) {
                     value={value}
                     placeholder="Ex: Arroz"
                   />
-                  <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>Digite um email cadastrado</FormControl.ErrorMessage>
+                  <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.title?.message}</FormControl.ErrorMessage>
                 </FormControl>
               )}
             />
@@ -43,7 +57,7 @@ export default function ModalAddItem({ modalVisible, onClose }: Props) {
               control={control}
               name="quantity"
               render={({ field: { onChange, onBlur, value } }) => (
-                <FormControl>
+                <FormControl isRequired isInvalid={!!errors.title}>
                   <FormControl.Label>Quantidade</FormControl.Label>
                   <Input
                     onChangeText={onChange}
@@ -52,6 +66,7 @@ export default function ModalAddItem({ modalVisible, onClose }: Props) {
                     keyboardType="numeric"
                     placeholder="Ex: 2"
                   />
+                  <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.quantity?.message}</FormControl.ErrorMessage>
                 </FormControl>
               )}
             />
